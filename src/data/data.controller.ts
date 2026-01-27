@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { DataService } from './data.service';
 import { CreateDataDto } from './dto/createData.dto';
 import { UpdateDataDto } from './dto/updateData.dto';
@@ -12,9 +12,9 @@ export class DataController {
         return this.dataService.getData(query);
     }
 
-    @Get(':location/:value')
-    findByLocationAndValue(@Param('location') location: string, @Param('value') value: string) {
-        return this.dataService.getDataByLocationAndValue(location, value);
+    @Get(':id')
+    findOne(@Param('id', ParseIntPipe) id: number) {
+        return this.dataService.getDataForOne(id);
     }
 
     @Post()
@@ -29,5 +29,12 @@ export class DataController {
     update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateDataDto) {
         // Update logic to be implemented
         return this.dataService.updateData(id, body);
+    }
+
+    @Delete(':id')
+    @HttpCode(204)
+    remove(@Param('id', ParseIntPipe) id: number) {
+        // Delete logic to be implemented
+        return this.dataService.removeData(id);
     }
 }

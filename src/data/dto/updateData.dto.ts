@@ -1,13 +1,4 @@
-import { IsString, Length } from "class-validator";
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateDataDto } from "./createData.dto";
 
-export class UpdateDataDto {
-    @IsString()
-    @Length(2, 3)
-    name: string;
-    @IsString()
-    country: string;
-    @IsString()
-    continent: string;
-    @IsString()
-    isSeekingFunding: string;
-}
+export class UpdateDataDto extends PartialType(CreateDataDto) {}
