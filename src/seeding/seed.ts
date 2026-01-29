@@ -5,18 +5,10 @@ import { CompanyFactory } from "./company.factory";
 import { FounderFactory } from "./founder.factory";
 import { TagFactory } from "./tag.factory";
 import { MainSeeder } from "./main.seeder";
+import dbConfig from "../config/db.config";    
 
 const options: DataSourceOptions & SeederOptions = {
-    type: 'postgres',
-    // host: 'db.bmadzqvwsftartxourtn.supabase.co',
-    // port: 5432,
-    // username: 'postgres',
-    // password: '1H7W0kbgS6BZeP0c',
-    // database: 'postgres',
-    url: 'postgresql://neondb_owner:npg_t3WNXGzguE4l@ep-shiny-water-ah6r52pe-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
-    entities: [__dirname + '/../data/entities/*.entity{.ts,.js}'],
-    synchronize: true,
-    logging: ['error', 'warn'],
+    ...dbConfig(),
     factories: [AddressFactory, CompanyFactory, FounderFactory, TagFactory],
     seeds: [MainSeeder]
 }

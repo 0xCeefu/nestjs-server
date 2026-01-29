@@ -4,16 +4,25 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Company } from './entities/company.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CompanyService {
-  constructor(@InjectRepository(Company) private companyRepository: Repository<Company>) {}
+  constructor(@InjectRepository(Company) private companyRepository: Repository<Company>, private configService: ConfigService) {}
   async create(createCompanyDto: CreateCompanyDto) {
     return await this.companyRepository.save(createCompanyDto);
   }
+  
+  async findAll(query: any) {
+    // console.log(this.configService.get<string>('testVars.test2'));
+    const page = +query.page || 1;
+    const limit = +query.limit || this.configService.get<number>('DEFAULT_PAGE_SIZE', DEFAULT_PAGE_SIZE);
 
-  async findAll() {
-    return await this.companyRepository.find();
+    return await this.companyRepository.find({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
   }
 
   async findOne(id: number) {

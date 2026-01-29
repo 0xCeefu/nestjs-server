@@ -7,20 +7,18 @@ import { CompanyModule } from './company/company.module';
 import { FoundersModule } from './founders/founders.module';
 import { TagModule } from './tag/tag.module';
 import { AddressModule } from './address/address.module';
+import { ConfigModule } from '@nestjs/config';
+import dbConfig from './config/db.config';
+import dbConfigProduction from './config/db.config.production';
+import testConfig from './config/test.config';
 
 @Module({
-  imports: [DataModule, TypeOrmModule.forRoot({
-    type: 'postgres',
-    // host: 'db.bmadzqvwsftartxourtn.supabase.co',
-    // port: 5432,
-    // username: 'postgres',
-    // password: '1H7W0kbgS6BZeP0c',
-    // database: 'postgres',
-    url: 'postgresql://neondb_owner:npg_t3WNXGzguE4l@ep-shiny-water-ah6r52pe-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
-    entities: [__dirname + '/data/entities/*.entity{.ts,.js}'],
-    autoLoadEntities: true,
-    synchronize: true,
-    logging: ['error', 'warn'],
+  imports: [ConfigModule.forRoot({
+    isGlobal: true,
+    expandVariables: true,
+    load: [dbConfig, testConfig],
+  }) ,DataModule, TypeOrmModule.forRootAsync({
+    useFactory: process.env.NODE_ENV === 'production' ? dbConfigProduction : dbConfig,
   }), CompanyModule, FoundersModule, TagModule, AddressModule],
   controllers: [AppController],
   providers: [AppService],

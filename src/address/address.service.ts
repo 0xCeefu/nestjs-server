@@ -4,6 +4,7 @@ import { UpdateAddressDto } from './dto/update-address.dto';
 import { Repository } from 'typeorm';
 import { Address } from './entities/address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 @Injectable()
 export class AddressService {
@@ -12,8 +13,14 @@ export class AddressService {
     return await this.addressRepository.save(createAddressDto);
   }
 
-  async findAll() {
-    return await this.addressRepository.find();
+  async findAll(query: any) {
+    const page = +query.page || 1;
+    const limit = +query.limit || DEFAULT_PAGE_SIZE;
+        
+    return await this.addressRepository.find({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
   }
 
   async findOne(id: number) {

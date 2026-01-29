@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { FoundersService } from './founders.service';
 import { CreateFounderDto } from './dto/create-founder.dto';
 import { UpdateFounderDto } from './dto/update-founder.dto';
@@ -13,8 +13,8 @@ export class FoundersController {
   }
 
   @Get()
-  findAll() {
-    return this.foundersService.findAll();
+  findAll(@Query() query: any) {
+    return this.foundersService.findAll(query);
   }
 
   @Get(':id')

@@ -4,6 +4,7 @@ import { UpdateFounderDto } from './dto/update-founder.dto';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Founder } from './entities/founder.entity';
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 @Injectable()
 export class FoundersService {
@@ -12,8 +13,14 @@ export class FoundersService {
     return await this.founderRepository.save(createFounderDto);
   }
 
-  async findAll() {
-    return await this.founderRepository.find();
+  async findAll(query: any) {
+    const page = +query.page || 1;
+    const limit = +query.limit || DEFAULT_PAGE_SIZE;
+
+    return await this.founderRepository.find({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
   }
 
   async findOne(id: number) {
