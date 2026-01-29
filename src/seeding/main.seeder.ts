@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
-import { Address } from "../data/entities/address.entity";
-import { Company } from "../data/entities/company.entity";
-import { Founder } from "../data/entities/founder.entity";
-import { Tag } from "../data/entities/tag.entity";
+import { Address } from "../address/entities/address.entity";
+import { Company } from "../company/entities/company.entity";
+import { Founder } from "../founders/entities/founder.entity";
+import { Tag } from "../tag/entities/tag.entity";
 import { DataSource } from "typeorm";
 import { Seeder, SeederFactoryManager } from "typeorm-extension";
 

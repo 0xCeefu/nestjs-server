@@ -1,7 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Address } from "./address.entity";
-import { Founder } from "./founder.entity";
-import { Tag } from "./tag.entity";
+import { Address } from "../../address/entities/address.entity";
+import { Founder } from "../../founders/entities/founder.entity";
+import { Tag } from "../../tag/entities/tag.entity";
 
 @Entity()
 export class Company {

@@ -3,6 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DataModule } from './data/data.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CompanyModule } from './company/company.module';
+import { FoundersModule } from './founders/founders.module';
+import { TagModule } from './tag/tag.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [DataModule, TypeOrmModule.forRoot({
@@ -17,7 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     autoLoadEntities: true,
     synchronize: true,
     logging: ['error', 'warn'],
-  })],
+  }), CompanyModule, FoundersModule, TagModule, AddressModule],
   controllers: [AppController],
   providers: [AppService],
 })

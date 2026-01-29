@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Company } from "./company.entity";
+import { Company } from "../../company/entities/company.entity";
 
 @Entity()
 export class Tag {
