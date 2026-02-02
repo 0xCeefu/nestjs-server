@@ -5,17 +5,18 @@ import { Repository } from 'typeorm';
 import { Address } from './entities/address.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AddressService {
-  constructor(@InjectRepository(Address) private addressRepository: Repository<Address>) {}
+  constructor(@InjectRepository(Address) private addressRepository: Repository<Address>, private readonly configService: ConfigService) {}
   async create(createAddressDto: CreateAddressDto) {
     return await this.addressRepository.save(createAddressDto);
   }
 
   async findAll(query: any) {
     const page = +query.page || 1;
-    const limit = +query.limit || DEFAULT_PAGE_SIZE;
+    const limit = +query.limit || this.configService.get<number>('DEFAULT_PAGE_SIZE') || DEFAULT_PAGE_SIZE;
         
     return await this.addressRepository.find({
       skip: (page - 1) * limit,

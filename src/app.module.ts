@@ -8,6 +8,8 @@ import { FoundersModule } from './founders/founders.module';
 import { TagModule } from './tag/tag.module';
 import { AddressModule } from './address/address.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 import dbConfig from './config/db.config';
 import dbConfigProduction from './config/db.config.production';
 import testConfig from './config/test.config';
@@ -19,7 +21,7 @@ import testConfig from './config/test.config';
     load: [dbConfig, testConfig],
   }) ,DataModule, TypeOrmModule.forRootAsync({
     useFactory: process.env.NODE_ENV === 'production' ? dbConfigProduction : dbConfig,
-  }), CompanyModule, FoundersModule, TagModule, AddressModule],
+  }), CompanyModule, FoundersModule, TagModule, AddressModule, UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

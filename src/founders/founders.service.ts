@@ -5,17 +5,18 @@ import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Founder } from './entities/founder.entity';
 import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FoundersService {
-  constructor(@InjectRepository(Founder) private founderRepository: Repository<Founder>) {}
+  constructor(@InjectRepository(Founder) private founderRepository: Repository<Founder>, private readonly configService: ConfigService) {}
   async create(createFounderDto: CreateFounderDto) {
     return await this.founderRepository.save(createFounderDto);
   }
 
   async findAll(query: any) {
     const page = +query.page || 1;
-    const limit = +query.limit || DEFAULT_PAGE_SIZE;
+    const limit = +query.limit || this.configService.get<number>('DEFAULT_PAGE_SIZE') || DEFAULT_PAGE_SIZE;
 
     return await this.founderRepository.find({
       skip: (page - 1) * limit,

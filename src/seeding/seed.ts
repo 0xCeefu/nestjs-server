@@ -1,3 +1,9 @@
+import 'dotenv/config';
+
+// import { setDefaultResultOrder } from 'node:dns';
+
+// setDefaultResultOrder('ipv4first');
+
 import { DataSource, DataSourceOptions } from "typeorm";
 import { runSeeders, SeederOptions } from "typeorm-extension";
 import { AddressFactory } from "./address.factory";
@@ -6,10 +12,12 @@ import { FounderFactory } from "./founder.factory";
 import { TagFactory } from "./tag.factory";
 import { MainSeeder } from "./main.seeder";
 import dbConfig from "../config/db.config";    
+import { UserFactory } from "./user.factory";
 
 const options: DataSourceOptions & SeederOptions = {
     ...dbConfig(),
-    factories: [AddressFactory, CompanyFactory, FounderFactory, TagFactory],
+    factories: [UserFactory],
+    // factories: [AddressFactory, CompanyFactory, FounderFactory, TagFactory],
     seeds: [MainSeeder]
 }
 
