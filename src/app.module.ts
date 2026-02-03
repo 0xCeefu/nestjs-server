@@ -13,12 +13,13 @@ import { AuthModule } from './auth/auth.module';
 import dbConfig from './config/db.config';
 import dbConfigProduction from './config/db.config.production';
 import testConfig from './config/test.config';
+import jwtConfig from './config/jwt.config';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
     expandVariables: true,
-    load: [dbConfig, testConfig],
+    load: [dbConfig, testConfig, jwtConfig],
   }) ,DataModule, TypeOrmModule.forRootAsync({
     useFactory: process.env.NODE_ENV === 'production' ? dbConfigProduction : dbConfig,
   }), CompanyModule, FoundersModule, TagModule, AddressModule, UserModule, AuthModule],

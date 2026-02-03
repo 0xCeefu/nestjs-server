@@ -10,6 +10,8 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req) {
-    return req.user;
+    const id = req.user.id;
+    const token = this.authService.getJwtToken(id);
+    return { id, token };
   }
 }
