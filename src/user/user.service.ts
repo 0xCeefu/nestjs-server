@@ -16,6 +16,10 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  async setCurrentRefreshToken(userId: number, refreshToken) {
+    return await this.userRepository.update(userId, { hashedRefreshToken: refreshToken });
+  }
+
   async findUserByEmail(email: string) {
     return await this.userRepository.findOneBy({ email });
   }
@@ -31,6 +35,10 @@ export class UserService {
   }
 
   async findOne(id: number) {
+    return await this.userRepository.findOne({ where: { id }, select: ['id', 'name', 'email', 'role'] });
+  }
+
+  async findOneBy(id: number) {
     return await this.userRepository.findOneBy({ id });
   }
 

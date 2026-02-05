@@ -11,7 +11,21 @@ export class AuthController {
   @Post('login')
   async login(@Request() req) {
     const id = req.user.id;
-    const token = this.authService.getJwtToken(id);
-    return { id, token };
+    return this.authService.login(id);
+  }
+
+  @UseGuards(AuthGuard('refresh-jwt'))
+  @Post('refresh')
+  async refreshToken(@Request() req) {
+    const id = req.user.id;
+    return this.authService.refreshJwtToken(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('logout')
+  async logout(@Request() req) {
+    const id = req.user.id;
+    await this.authService.logout(id);
+    return { message: 'Logged out successfully' };
   }
 }

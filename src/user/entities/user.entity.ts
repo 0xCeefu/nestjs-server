@@ -15,6 +15,9 @@ export class User {
     @Column({nullable: false, default: 'defaultPassword'})
     password: string;
 
+    @Column({nullable: true})
+    hashedRefreshToken: string;
+
     @Column({default: 'user'})
     role: string;
 
