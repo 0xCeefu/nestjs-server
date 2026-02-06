@@ -11,9 +11,14 @@ import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 export class UserService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>, private readonly configService: ConfigService) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
+    let existingUser = await this.findUserByEmail(createUserDto.email);
+    if (existingUser) {
+      throw new Error('User with this email already exists');
+    }
     let user = this.userRepository.create(createUserDto);
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+    return { id: user.id, name: user.name, email: user.email, role: user.role };
   }
 
   async setCurrentRefreshToken(userId: number, refreshToken) {

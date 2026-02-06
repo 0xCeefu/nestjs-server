@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UserService } from 'src/user/user.service';
 import * as argon2 from 'argon2';
+import { th } from '@faker-js/faker';
 
 @Injectable()
 export class AuthService {
@@ -60,5 +61,14 @@ export class AuthService {
 
     async logout(userId: number) {
         await this.userService.setCurrentRefreshToken(userId, null);
+    }
+
+    async getUserRoleFromId(userId: number) {
+        const user = await this.userService.findOne(userId);
+        if (!user) {
+            throw new UnauthorizedException('User not found');
+        }
+        const userObject = { id: user.id, role: user.role };
+        return userObject;
     }
 }
